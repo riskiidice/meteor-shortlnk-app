@@ -9,6 +9,7 @@ export default class Addlink extends React.Component {
     this.state = {
       url: '',
       isOpen: false,
+      error: '',
     }
   }
   onSubmit(e){
@@ -17,7 +18,10 @@ export default class Addlink extends React.Component {
       // Links.insert({url,userId: Meteor.userId()});
     Meteor.call("links.insert", url, (err, res) => {
       if(!err){
-        this.setState({url: ''})
+        this.setState({isOpen:false, url: '', error: ''})
+        this.handleModalClose();
+      }else{
+        this.setState({error: err.reason})
       }
     });
 
@@ -27,11 +31,19 @@ export default class Addlink extends React.Component {
     this.setState({ url: e.target.value });
   }
 
+  handleModalClose(){
+    this.setState({isOpen:false,url:'', error:''});
+  }
   render(){
     return (
       <div>
-        <Modal isOpen={this.state.isOpen} contentLabel="Add Link" >
-          <p>Add Links</p>
+        <button type="button" onClick={()=> {this.setState({isOpen: true})}}>+Add Link</button>
+        <Modal isOpen={this.state.isOpen}
+          contentLabel="Add Link"
+          onAfterOpen={()=> this.refs.url.focus()}
+          onRequestClose={this.handleModalClose.bind(this)}>
+          <h1>Add Link</h1>
+          {this.state.error ? <p>{this.state.error}</p> : undefined}
           <form onSubmit={this.onSubmit.bind(this)} >
             <input
               type="text"
@@ -40,8 +52,9 @@ export default class Addlink extends React.Component {
               value={this.state.url}
               onChange={this.onChange.bind(this)}
             />
-            <button type="submit">Add Links</button>
+            <button type="submit">Add Link</button>
           </form>
+          <button onClick={this.handleModalClose.bind(this)}>Cancel</button>
         </Modal>
       </div>
     )
