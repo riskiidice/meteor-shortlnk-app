@@ -10,10 +10,11 @@ import LinksListFilters from './LinksListFilters';
    return (
      <div>
        <PrivateHeader title="Your Links" />
-       <LinksListFilters />
-       <Addlink />
-       <LinksList/ >
-
+       <div className="page-content">
+         <LinksListFilters />
+         <Addlink />
+         <LinksList/ >
+       </div>
      </div>
    )
  }

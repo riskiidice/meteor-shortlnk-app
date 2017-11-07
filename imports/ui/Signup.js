@@ -39,7 +39,8 @@ export default class Signup extends React.Component {
 
   render(){
     return (
-      <div>
+      <div className="boxed-view">
+        <div className="boxed-view__box">
           <h1>Join Short Link </h1>
           { this.state.error ? <p>{this.state.error}</p> : undefined }
           <form onSubmit={this.onSubmit.bind(this)} noValidate>
@@ -48,6 +49,7 @@ export default class Signup extends React.Component {
             <button type="submit">Create Account</button>
           </form>
           <Link to="/">Already have an account?</Link>
+          </div>
       </div>
     );
   }
